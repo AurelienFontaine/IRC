@@ -1,0 +1,40 @@
+A FAIRE :
+
+~PASSWORD
+    -Recuperation du mot de passe en argument 
+        OK -Caractere speciaux, space, tab etc
+        OK -Attendre sans rien faire, la connexion ne se perd pas, se refait.
+        -Multiple connexion ?
+        -Reconnexion apres une deco d'un seul cote ?
+
+TEST :
+
+-
+
+CHECK :
+
+-dans le LOOP, le close final ??
+
+
+A LA FIN DU PROJET:
+
+-Supprimer les //Debug
+-Supprimer les #colors inutiles
+-Supprimer les #defines inutiles
+
+MODE
+ok partout i guess 403	ERR_NOSUCHCHANNEL	RFC1459	<channel> :<reason>	Used to indicate the given channel name is invalid, or does not exist
+Pas utile 442	ERR_NOTONCHANNEL	RFC1459	<channel> :<reason>	Returned by the server whenever a client tries to perform a channel effecting command for which the client is not a member
+ok dans mode 482	ERR_CHANOPRIVSNEEDED	RFC1459	<channel> :<reason>	Returned by any command requiring special channel privileges (eg. channel operator) to indicate the operation was unsuccessful
+ok 472	ERR_UNKNOWNMODE	RFC1459	<char> :<reason>	Returned when a given mode is unknown
+ok 461	ERR_NEEDMOREPARAMS	RFC1459	<command> :<reason>	Returned by the server by any command which requires more parameters than the number of parameters given
+??
+324	RPL_CHANNELMODEIS	RFC1459	<channel> <mode> <mode_params>
+441	ERR_USERNOTINCHANNEL	RFC1459	<nick> <channel> :<reason>	Returned by the server to indicate that the target user of the command is not on the given channel
+
+TOPIC
+482	ERR_CHANOPRIVSNEEDED	RFC1459	<channel> :<reason>	Returned by any command requiring special channel privileges (eg. channel operator) to indicate the operation was unsuccessful
+
+Changement de nom pas correct : aurelien1ontaine
+
+NAELLE : LOOP SERVER
