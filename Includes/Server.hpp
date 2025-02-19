@@ -19,7 +19,6 @@ class Server
 		fd_set					_actualSocket;
 		fd_set					_okSocket;
 		struct sockaddr_in		_serverAddr;
-		time_t					_startT;
 		time_t					_innactive;
 		struct timeval			_tv;
 		std::map<int , User *>	_userList;

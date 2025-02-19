@@ -14,14 +14,14 @@ bool	validNickName(std::string nickName)
 
 void	User::nick(Message *msg)
 {
-		std::cout << SGREEN << "~   Nick a été utilisé par l'utilisateur n°" << _id << END << std::endl;
+    std::cout << SGREEN << "~   Nick a été utilisé par l'utilisateur n°" << _id  << ", " << GGREEN << getNickname() << END << std::endl;
 	std::string nick = "NICK";
 	if (msg->param.empty())
-		ft_reply(431, _nickName, "", "", "");
+		ft_reply(431, _nickName, "", "");
 	else if (!validNickName(msg->param[0]))
-		ft_reply(432, _nickName, "", "", "");
+		ft_reply(432, _nickName, "", "");
 	else if (_serv->checkNickUsed(msg->param[0]))
-		ft_reply(433, msg->param[0], "", "", "");
+		ft_reply(433, msg->param[0], "", "");
 	else
 	{
 		std::string message;

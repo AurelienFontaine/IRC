@@ -1,12 +1,12 @@
 #include "../Includes/Define.hpp"
 
 
-void	User::ft_reply(const int code, std::string arg1, std::string arg2, std::string arg3, std::string arg4)
+void	User::ft_reply(const int code, std::string arg1, std::string arg2, std::string arg3)
 {
 	std::string reply;
 
 	reply = formatReply(code);
-	reply += irssiCode(code, arg1, arg2, arg3, arg4);
+	reply += irssiCode(code, arg1, arg2, arg3);
 	reply += LAST_CHAR;
 
 	sendMsg(reply);
@@ -36,8 +36,6 @@ void	User::channelMsg(std::string msg, Channel *target)
 	std::vector<User *>::iterator it = members.begin();
 	for ( ; it != members.end(); it++)
 	{
-		std::cout << GREEN << "members.client nick ->" << (*it)->getNickname() << std::endl;
-		std::cout << RED << "sender nick ->" << _nickName << std::endl;
 		if ((*it)->getNickname() != _nickName)
 			userMsg(msg, (*it));
 	}
@@ -100,13 +98,13 @@ std::string	User::formatReply(const int code) const
 	if (getNickname() == "")
 		rep.append("*"); 			//:hostname 025 *
 	else
-		rep.append(_nickName);	//:hostname 025 nick
+		rep.append(_nickName);	//:hostname 025 nick 
 	rep.append(" ");
 	return (rep);
 }
 
 
-std::string	User::irssiCode(const int code, std::string arg1, std::string arg2, std::string arg3, std::string arg4)
+std::string	User::irssiCode(const int code, std::string arg1, std::string arg2, std::string arg3)
 {
 	switch(code)
 	{
@@ -114,15 +112,13 @@ std::string	User::irssiCode(const int code, std::string arg1, std::string arg2, 
 			return (RPL_WELCOME(arg1, arg2, arg3));
 		case 2:
 			return (RPL_YOURHOST(arg1, arg2));
-		case 3:
-			return (RPL_CREATED(arg1));
-		case 4:
-			return (RPL_MYINFO(arg1, arg2, arg3, arg4));
 		// nick
 		case 353:
 			return (RPL_NAMREPLY(arg1, arg2));
 		case 366:
 			return (RPL_ENDOFNAMES(arg1));
+		case 401:
+			return (ERR_NOSUCHNICK(arg1));
 		// part
 		case 403:
 			return (ERR_NOSUCHCHANNEL(arg1));
@@ -141,8 +137,6 @@ std::string	User::irssiCode(const int code, std::string arg1, std::string arg2, 
 		case 464:
 			return (ERR_PASSWDMISMATCH);
 		//kick
-		case 476:
-			return (ERR_BADCHANMASK(arg1));
 		case 482:
 			return (ERR_CHANOPRIVSNEEDED(arg1));
 		case 441:
@@ -151,8 +145,6 @@ std::string	User::irssiCode(const int code, std::string arg1, std::string arg2, 
 			return (ERR_NORECIPIENT(arg1));
 		case 412:
 			return (ERR_NOTEXTTOSEND);
-		case 404:
-			return (ERR_CANNOTSENDTOCHAN(arg1));
 		//ping & pong
 		case 402:
 			return (ERR_NOSUCHSERVER(arg1));
@@ -170,13 +162,6 @@ std::string	User::irssiCode(const int code, std::string arg1, std::string arg2, 
 			return (ERR_TOOMANYCHANNELS(arg1));
 		case 471:
 			return (ERR_CHANNELISFULL(arg1));
-		//list
-		case 322:
-			return (RPL_LIST(arg1, arg2, arg3, arg4));
-		case 323:
-			return (RPL_LISTEND);
-		case 451:
-			return (ERR_NOTREGISTERED(arg1, arg2));
 		case 332:
 			return (RPL_TOPIC(arg1, arg2));
 		case 331:

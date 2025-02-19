@@ -28,13 +28,13 @@ SRC =	$(SRCS_DIR)/Server.cpp \
 		$(SRCS_DIR)/Commandes/CmdInvite.cpp \
 		$(SRCS_DIR)/Commandes/CmdPrvtmsg.cpp \
 		$(SRCS_DIR)/Commandes/CmdPing.cpp \
+		$(SRCS_DIR)/Commandes/CmdPong.cpp \
 		$(SRCS_DIR)/Commandes/CmdMode.cpp \
 		$(SRCS_DIR)/Commandes/CmdLeave.cpp \
 		$(SRCS_DIR)/Channel/Channel.cpp \
 		$(SRCS_DIR)/Channel/ChannelGet.cpp \
 		$(SRCS_DIR)/Channel/ChannelSet.cpp \
 		$(SRCS_DIR)/Channel/ChannelUtils.cpp \
-		$(SRCS_DIR)/Channel/OldChannel.cpp \
 		$(SRCS_DIR)/Commandes/CmdTopic.cpp \
 		
 OBJS_DIR	= ./Objects

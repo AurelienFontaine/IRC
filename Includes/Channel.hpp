@@ -15,14 +15,12 @@ class Channel{
 		size_t								_nbUser;
 		std::vector<User*>					_userList;
 		std::vector<int>					_operatorList; //Les id des personnes operator
-		// Channel sur invitation
 		bool								_invite;
-		// Channel prive
+		std::vector<int>					_whiteList; //les id des personnes autorisees
 		bool								_private;
 		std::string							_password;
 
 	public:
-		std::vector<int>					_whiteList; //les id des personnes autorisees
 	 										Channel(User &admin, std::string name);
 											Channel(std::string name, int id);
 											~Channel();

@@ -12,13 +12,11 @@ Server &Server::operator=(Server &other)
 	this->_name = other._name;
 	this->_password = other._password;
 	this->_port = other._port;
-	this->_startT = other._startT;
 	this->_serverSocket = other._serverSocket;
 	this->_serverAddr = other._serverAddr;
 	this->_actualSocket = other._actualSocket;
 	this->_okSocket = other._okSocket;
 	this->_userList = other._userList;
-	//this->_channelList = other._channelList;
 	this->_buffer = other._buffer;
 	this->_serverInfo = other._serverInfo;
 
@@ -52,16 +50,13 @@ bool Server::checkArguments(int ac, char **av)
 
 int Server::setupSocket()
 {
-	time(&_startT);
-	_tv.tv_sec = RESTORE_TIME;
-	_tv.tv_usec = 0;
 	// Création du socket
 	if ((_serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
 		return (MyError(ERR_CREATE), 1);
 	// Configuration de l'adresse du serveur
 	std::memset(&_serverAddr.sin_zero, 0, sizeof(_serverAddr));
 	this->_serverAddr.sin_family = AF_INET;
-	this->_serverAddr.sin_addr.s_addr = INADDR_ANY;
+	this->_serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	this->_serverAddr.sin_port = htons(this->_port);
 	//Reutiliser l'adresse
 	int optval = 1;
@@ -83,7 +78,7 @@ int Server::setupSocket()
 		throw MyError(ERR_LISTEN);
 	}
 	//Mettre _serverSocket en non bloquant
-	fcntl(_serverSocket, F_SETFL, O_NONBLOCK); //test
+	fcntl(_serverSocket, F_SETFL, O_NONBLOCK);
 	//Set le groupe de fd check par select
 	FD_ZERO(&_actualSocket);
 	FD_SET(this->_serverSocket, &_actualSocket);
@@ -294,7 +289,6 @@ void	Server::addUserToChannel(User* user, std::string nameChannel)
 	if (!channel->checkUser(user))
 	{
 		channel->addUser(user);
-		std::cout << GRED << "test"<< END << std::endl;
 		user->addJoinedChannel(channel);
 	}
 }
@@ -391,14 +385,12 @@ bool	Server::checkNickUsed(std::string nickName)
 
 /*GET*/
 bool Server::checkRunning() { return _serverState; }
-time_t const*	Server::getStartT() const { return &_startT;}
 std::string		Server::getName() const {return _name;}
 std::string		Server::getPassword() const {return _password;}
 std::string		Server::getServerInfo() const{ return _serverInfo;}
 int				Server::getPort() const {return _port;}
 int				Server::getServerSocket() const {return _serverSocket;}
 size_t			Server::getUserName() const { return _userList.size(); }
-//std::vector<Channel *> *Server::getChannelList(){return (&_channelList);}
 User*	Server::getUser(std::string nickName)
 {
 	std::map<int, User*>::iterator start = _userList.begin();
@@ -420,6 +412,8 @@ std::ostream		&operator<<( std::ostream &flux, Server const & rhs )
 	flux << "Port: " << rhs.getPort() << std::endl;
 	flux << "Server Socket: " << rhs.getServerSocket() << std::endl;
 	flux << "Nombre d'utilisateur: " << rhs.getUserName() << std::endl;
-	flux << "Cree: " << ctime(rhs.getStartT()) << std::endl;
+	time_t current_time;
+    time(&current_time);
+    flux << "Cree le: " << ctime(&current_time) << std::endl; 
 	return flux;
 }

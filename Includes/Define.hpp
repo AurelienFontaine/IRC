@@ -58,8 +58,8 @@
 #define RESTORE_TIME 1
 #define ALLOWED_CONNECTIONS 20
 #define MAX_BUFFER 1024
-#define NB_COMDS 11
-#define T_SHUTDOWN 300
+#define NB_COMDS 12
+#define T_SHUTDOWN 120
 #define LAST_CHAR "\r\n"
 #define OK_CHAR "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890!_-+=@"
 
@@ -97,46 +97,32 @@
 			+ nick + "!" + user + "@" + host)
 // RPL002
 #define RPL_YOURHOST(servername, ver) (":Your host is " + servername + ", running version " + ver)
-// RPL003
-#define RPL_CREATED(_startTime) (":This server was created " + _startTime)
-// RPL004
-#define RPL_MYINFO(servername, version, channelModes, userModes) (":" + servername + \
-				" " + version + " " + channelModes + " " + userModes)
+
 // ERR461
 #define ERR_NEEDMOREPARAMS(command) (command + " :Not enough parameters")
 
 // ERR462
 #define ERR_ALREADYREGISTERED "462 :Unauthorized command (already registered)"
+
 // ERR464
 #define ERR_PASSWDMISMATCH	"* :Password incorrect"
 
-// NICK COMMAND
+// NICK
 // ERR431
-#define ERR_NONICKNAMEGIVEN ":No nickname given" //431
-// - Returned when a nickname parameter expected for a command and isn't found.
+#define ERR_NONICKNAMEGIVEN ":No nickname given" 
+
+//ERR_401
+#define ERR_NOSUCHNICK(nick) (nick + " :No such channel")
 
 // ERR432
-#define ERR_ERRONEUSNICKNAME(nick) (nick + " :Erroneous nickname") //432
-//          - Returned after receiving a NICK message which contains
-//            characters which do not fall in the defined set.  See
-//            section 2.3.1 for details on valid nicknames.
+#define ERR_ERRONEUSNICKNAME(nick) (nick + " :Erroneous nickname")
 
 // ERR433
-#define ERR_NICKNAMEINUSE(arg1) (arg1 + " :Nickname is already in use") //433
-//          - Returned when a NICK message is processed that results
-//            in an attempt to change to a currently existing
-//            nickname..
-//  [ server : 6667 ] :*.freenode.net 433 * epresa-c :Nickname is already in use.
+#define ERR_NICKNAMEINUSE(arg1) (arg1 + " :Nickname is already in use")
 
 //JOIN
 // RPL353
 #define RPL_NAMREPLY(channel, nick) "= " + channel + " :" + nick
-// = #lol :@Guest36096 mikeWpit
-//"( "=" / "*" / "@" ) <channel>
-//:[ "@" / "+" ] <nick> *( " " [ "@" / "+" ] <nick> )
-
-//- "@" is used for secret channels, "*" for private channels,
-//  and "=" for others (public channels).
 
 // RPL366
 #define RPL_ENDOFNAMES(channel) channel + " :End of NAMES list"
@@ -147,37 +133,27 @@
 
 // ERR442
 #define ERR_NOTONCHANNEL(channel) (channel + " :You're not on that channel")
-// - Returned by the server whenever a user tries to perform a
-// channel affecting command for which the user isn't a member.
 
 // KICK
-// ERR476
-#define ERR_BADCHANMASK(channel) (channel+ " :Bad Channel Mask")
-
 //ERR482
 #define ERR_CHANOPRIVSNEEDED(channel) (channel + " :You're not channel operator")
-// - Any command requiring 'chanop' privileges (such as MODE messages)
-// MUST return this error if the user making the attempt is not a
-// chanop on the specified channel.
 
 // ERR441
 #define ERR_USERNOTINCHANNEL(nick, channel) (nick + " " + channel + " :They aren't on that channel")
-// - Returned by the server to indicate that the target
-// user of the command is not on the given channel.
 
 // PING PONG
 // ERR409
 #define ERR_NOORIGIN " :No origin specified"
+
 // ERR402
 #define ERR_NOSUCHSERVER(server) (server + " :No such server")
 
 //PRIVMSG
 // ERR411
 #define ERR_NORECIPIENT(command) (":No recipient given (" + command + ")")
+
 // ERR412
 #define ERR_NOTEXTTOSEND ":No text to send"
-// ERR404
-#define ERR_CANNOTSENDTOCHAN(channel_name) (channel_name + " :Cannot send to channel")
 
 //INVITE
 // ERR443
@@ -186,26 +162,19 @@
 // RPL341
 #define RPL_INVITING(invited, channel) (invited + " :" + channel)
 
-
 // ERR473
 #define ERR_INVITEONLYCHAN(channel) (channel + " :Cannot join channel (+i)")
 
-// RPL322
-#define RPL_LIST(channel, total_users , modes, topic) (channel + " " + total_users + " :[" + modes + "] " + topic)
-// RPL323
-#define RPL_LISTEND ":End of LIST"
-
 //RPL 405
-#define ERR_TOOMANYCHANNELS(channel) (channel + " :You have joined to many channels")
+#define ERR_TOOMANYCHANNELS(channel) (channel + " :You have joined too many channels")
 
 // ERR471
 #define ERR_CHANNELISFULL(channel) (channel + " :Cannot join channel (+l)")
-// RPL351
-#define ERR_NOTREGISTERED(command, notregistered) (command + " :" + notregistered)
 
 //TOPIC 
 //RPL331
 #define RPL_NOTOPIC(topic) (topic + " No topic is set")
+
 //RPL332
 #define RPL_TOPIC(channel, topic) (channel + " :" + topic)
 

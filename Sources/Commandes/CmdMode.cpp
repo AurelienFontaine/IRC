@@ -8,26 +8,16 @@ void	User::cmdPvtMsg(User *u, std::string name, std::string msg){
 
 void    User::modeTiret(Message *msg)
 {
-    std::cout << SRED << "~   Mode a été utilisé par l'utilisateur n°" << _id << END << std::endl;
+    std::cout << SGREEN << "~   Mode a été utilisé par l'utilisateur n°" << _id  << ", " << GGREEN << getNickname() << END << std::endl;
     Channel            *this_channel = _serv->getChannel((msg->param[0]));
-    // std::string     ch_name = this_channel->getName();
 	size_t size = msg->param.size();
 	if (size >= 2 && size < 4)
 	{
-
-		std::string print; // a retirer avec le for
-		for (size_t i = 0; i < size ; i++)
-		{
-			print = msg->param[i];
-			std::cout << PURPLE << print << std::endl;
-		}
 		if (!this_channel->checkOperator(this))
-			return (ft_reply(482, this_channel->getName(), "", "", ""));
+			return (ft_reply(482, this_channel->getName(), "", ""));
 		std::string     stringTiret = msg->param[1];
 		std::cout << SGREEN << stringTiret << std::endl;
-		// if (this_channel->checkOperator(this))
-		//     return (ft_reply(482, ch_name, "", "", ""));
-		if (stringTiret == "-t" && this_channel->getTopicOperator() == 1)
+		if (stringTiret == "-t")
 		{
 			this_channel->setTopicOperator(!this_channel->getTopicOperator());
 			std::string send;
@@ -54,23 +44,28 @@ void    User::modeTiret(Message *msg)
 				cmdPvtMsg(this, msg->param[0], send);
 			}
 			else
+			{
 				cmdPvtMsg(this, msg->param[0], ERR_INPUT_CMD);
+				return (ft_reply(472, msg->param[1], "", ""));
+			}
 		}
 		else if (msg->param[1] == "-o")
 		{
 			if (size == 2)
 			{
 				if (msg->param[1].length() == 2)
-					return (ft_reply(461, msg->command, "", "", ""));
+				{
+					cmdPvtMsg(this, msg->param[0], ERR_INPUT_CMD);
+					return (ft_reply(461, msg->command, "", ""));
+				}
 			}
             if (size == 3)
             {
                 User *user = _serv->getUser(msg->param[2]);
 				if (!user)
 				{
-					ft_reply(441, msg->param[1], this_channel->getName(), "", "");
 					cmdPvtMsg(this, msg->param[0], ERR_BAD_ARG);
-					return ;
+					return (ft_reply(441, msg->param[1], this_channel->getName(), ""));
 				}
                 if (this_channel->findInOperatorList(user->getId()) == -1)
 				{
@@ -89,16 +84,24 @@ void    User::modeTiret(Message *msg)
 		else if (msg->param[1][0] == '-' && msg->param[1][1] == 'l')
 		{
 			if (msg->param[1].length() == 2)
-				return (ft_reply(461, msg->command, "", "", ""));
+			{
+				cmdPvtMsg(this, msg->param[0], ERR_INPUT_CMD);
+				return (ft_reply(461, msg->command, "", ""));
+			}
 			if (msg->param[1].length() > 2)
 			{
 				std::string str = msg->param[1].substr(2);
+				if (str.length() > 3)
+                {
+                    cmdPvtMsg(this, msg->param[0], ERR_BAD_ARG);
+                    return (ft_reply(472, msg->param[1], "", ""));
+                }
 				for (size_t i = 0; i < str.length() ; i++)
 				{
 					if (isdigit(str[i]) == 0)
 					{
 						cmdPvtMsg(this, msg->param[0], ERR_BAD_ARG);
-						return ;
+						return (ft_reply(472, msg->param[1], "", ""));
 					}
 				}
 				if (size == 2)
@@ -107,9 +110,11 @@ void    User::modeTiret(Message *msg)
 					if (limitUser < this_channel->getNbUser() || limitUser > ALLOWED_CONNECTIONS || limitUser > 50 || limitUser <= 0)
 					{
 						cmdPvtMsg(this, msg->param[0], ERR_BAD_ARG);
+						return (ft_reply(472, msg->param[1], "", ""));
 					}
 					else
 					{
+						this_channel->setMaxUser(limitUser);
 						std::string send = "User limit successfully set to : " + str;
 						cmdPvtMsg(this, msg->param[0], send);
 					}
@@ -124,10 +129,8 @@ void    User::modeTiret(Message *msg)
 				{
 					this_channel->setInvite(true);
 					this_channel->addAllUsersToWhiteList();
-					this_channel->printWhiteList();
 					std::string send = "Channel successfully set to Invite only.";
 					cmdPvtMsg(this, msg->param[0], send);
-					
 				}
 				else
 				{
@@ -140,9 +143,8 @@ void    User::modeTiret(Message *msg)
 		}
 		else
 		{
-			ft_reply(472, msg->param[1], "", "", "");
-			std::string send = ERR_BAD_CMD;
-			cmdPvtMsg(this, msg->param[0], send);
+			cmdPvtMsg(this, msg->param[0], ERR_BAD_CMD);
+			return (ft_reply(472, msg->param[1], "", ""));
 		}
 	}
 }

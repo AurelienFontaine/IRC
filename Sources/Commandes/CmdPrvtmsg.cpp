@@ -2,15 +2,15 @@
 
 void User::privMsg(Message *msg)
 {
-    std::cout << SGREEN << "~   PRIVMSG a été utilisé par l'utilisateur n°" << _id << END << std::endl;
+    std::cout << SGREEN << "~   PrvtMsg a été utilisé par l'utilisateur n°" << _id  << ", " << GGREEN << getNickname() << END << std::endl;
     
     if (msg->param.empty()) {
-        ft_reply(411, msg->command, "", "", "");
+        ft_reply(411, msg->command, "", "");
         return;
     }
     
     if (msg->param.size() == 1) {
-        ft_reply(412, "", "", "", "");
+        ft_reply(412, "", "", "");
         return;
     }
     
@@ -26,7 +26,7 @@ void User::privMsg(Message *msg)
     
     User *target = _serv->getUser(targetName);
     if (!target) {
-        ft_reply(401, targetName, "", "", "");
+        ft_reply(401, targetName, "", "");
         return;
     }
     

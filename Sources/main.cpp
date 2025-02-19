@@ -1,13 +1,9 @@
 #include "../Includes/Server.hpp"
 
-/*SIGNAUX*/
-/* Gestionnaire de signal pour un arrêt propre */
-
 Server serv;
 
 void signalHandler(int signum)
 {
-	//Exit proprement
 	std::cout << BLUE << "\nSignal interrompu (" << signum << "). Nettoyage..." << END << std::endl;
 	serv.finish();
 	exit(signum);

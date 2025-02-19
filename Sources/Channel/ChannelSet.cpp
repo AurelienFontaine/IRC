@@ -22,7 +22,7 @@ void Channel::setNbUser(size_t nb){
 
 // Invite
 
-void	Channel::setInvite(bool value){ //A voir ici et sur le setPrivate si on peux les passer dans l'autre sens aussi
+void	Channel::setInvite(bool value){
 	_invite = value;
 }
 

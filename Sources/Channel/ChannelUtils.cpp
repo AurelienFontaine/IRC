@@ -7,7 +7,6 @@ void	Channel::addUser(User *u){
 		return ;
 	}
 	_userList.push_back(u);
-	std::cout << GRED << u->getId()  << u->getUsername()<< END << std::endl;
 	_nbUser++;
 }
 
@@ -29,7 +28,6 @@ int	Channel::findInUserList(User *u) const { //renvoie -1 si faux
 			return (1);
 		}
 	}
-	// throw std::invalid_argument("User not found");
 	return (0);
 }
 
@@ -41,24 +39,22 @@ int	Channel::findInOperatorList(int id) const { //renvoie -1 si faux
 			return (i);
 		}
 	}
-	// throw std::invalid_argument("User not found");
 	return (-1);
 }
 
-void	Channel::removeUser(int id){ //supprime UN user de la liste
+void	Channel::removeUser(int id){
 	for (size_t i = 0; i < _nbUser; i++)
 	{
 		if (_userList[i]->getId() == id)
 		{
-			std::cout << "ON EJECTE QLQ " << std::endl;
 			_userList.erase(_userList.begin() + i);
+			_nbUser--;
 			return ;
 		}
 	}
-	_nbUser--;
 }
 
-void	Channel::removeOperator(int id){ //supprime UN operator de la liste
+void	Channel::removeOperator(int id){
 	for (size_t i = 0; i < _nbUser; i++)
 	{
 		if (_operatorList[i] == id)
@@ -72,7 +68,7 @@ void	Channel::removeOperator(int id){ //supprime UN operator de la liste
 void	Channel::printChannelUsers(){
 	for (size_t i = 0 ; i < _nbUser ; i++)
 	{
-		std::cout << _userList[i] << std::endl; // Necessite la fct ostream de user
+		std::cout << _userList[i]->getId() << std::endl;
 	}
 }
 
@@ -140,7 +136,6 @@ void	Channel::removeWhitelist(int id){
 			return ;
 		}
 	}
-	// throw std::invalid_argument("User not found");
 }
 
 int	Channel::findInWhiteList(int id) const { //renvoie -1 si faux
@@ -151,7 +146,6 @@ int	Channel::findInWhiteList(int id) const { //renvoie -1 si faux
 			return (i);
 		}
 	}
-	// throw std::invalid_argument("User not found");
 	return (-1);
 }
 
@@ -160,7 +154,6 @@ void	Channel::printWhiteList(){
 		std::cout << "No one in WhiteList" << std::endl;
 	else
 	{
-		std::cout << BLUE << "Users in the WhiteList :" << std::endl;
 		for (size_t i = 0 ; i < _whiteList.size() ; i++)
 		{
 			std::cout << BLUE << "User[" << i << "]=" << _whiteList[i] << std::endl;

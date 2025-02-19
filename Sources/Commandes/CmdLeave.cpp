@@ -4,7 +4,7 @@ void            User::leave(Message *msg)
 {
     std::cout << SGREEN << "~   Leave a été utilisé par l'utilisateur n°" << _id  << ", " << GGREEN << getNickname() << END << std::endl;
     if (msg->param.empty())
-        return (ft_reply(461, msg->command, "", "", ""));
+        return (ft_reply(461, msg->command, "", ""));
 
     std::string part_msg = "";
     if (msg->param.size() == 1)
@@ -18,9 +18,9 @@ void            User::leave(Message *msg)
     {
         Channel *target = _serv->getChannel((channel));
         if (target == NULL)
-            ft_reply(403, channel, "", "", "");
+            ft_reply(403, channel, "", "");
         else if (!target->checkUser(this))
-            ft_reply(442, target->getName(), "", "", "");
+            ft_reply(442, target->getName(), "", "");
         else
         {
             std::string message = formatUser();

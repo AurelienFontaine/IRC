@@ -40,9 +40,9 @@ void	User::handleBufferCommands(const std::string& buffer)
 	while (token != NULL)
 	{
 		std::string command(token);
-		std::cout << GPURPLE << "Commande recu :" << command << END << std::endl; //debug
+		std::cout << GPURPLE << "Commande recu :" << command << END << std::endl;
 		msg = parseMsg(command);
-		std::cout << YELLOW << "Message traité : " << END << std::endl; //debug?
+		std::cout << YELLOW << "Message traité : " << END << std::endl;
 		printMsg(msg);
 		executeCommande(&msg);
 		if (getQuit())
@@ -88,7 +88,6 @@ std::ostream		&operator<<( std::ostream & flux, User const &rhs )
 	flux << "Username: " << rhs.getUsername() << std::endl;
 	flux << "Hostname: " << rhs.getHostname() << std::endl;
 	flux << "User Socket: " << rhs.getSocket() << std::endl;
-	// o << "Address: " << rhs.getAddress() << std::endl; TO CONSIDER: if it's usefull to print this infos to debug
 	return flux;
 }
 
@@ -113,6 +112,7 @@ void User::executeCommande(Message *msg)
         {"PRIVMSG", &User::privMsg},
         {"INVITE", &User::invite},
         {"PING", &User::ping},
+        {"PONG", &User::pong},
         {"MODE", &User::mode},
 		{"TOPIC", &User::topic},
 		{"PART", &User::leave}
@@ -143,7 +143,7 @@ void User::executeCommande(Message *msg)
             // Sinon, renvoyer une erreur
             else
             {
-                ft_reply(451, msg->command, "Vous n'êtes pas enregistré", "", "");
+                ft_reply(451, msg->command, "Vous n'êtes pas enregistré", "");
                 return;
             }
         }

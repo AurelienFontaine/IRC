@@ -78,7 +78,7 @@ class User
 	void    user(Message *msg);
 	void	invite(Message *msg);
 	void	leave(Message *msg);
-	void 	leaveChannel();
+	void	leaveChannel();
 	std::string	formatUser();
 	void	channelMsg(std::string msg, Channel *target);
 	void	multiUserMsg(std::string msg);
@@ -89,6 +89,8 @@ class User
 
 
 void	ping(Message *msg);
+void	pong(Message *msg);
+
 void	userModes(Message *msg);
 
 	void	privMsg(Message *msg);
@@ -99,9 +101,9 @@ void	userModes(Message *msg);
 
 //MESSAGES
 	void	sendMsg(std::string msg);
-	void	ft_reply(const int code, std::string arg1, std::string arg2, std::string arg3, std::string arg4);
+	void	ft_reply(const int code, std::string arg1, std::string arg2, std::string arg3);
 	std::string	formatReply(const int code)const ; 
-	std::string	irssiCode(const int code, std::string arg1, std::string arg2, std::string arg3, std::string arg4);
+	std::string	irssiCode(const int code, std::string arg1, std::string arg2, std::string arg3);
 
 /*GET*/
 	struct sockaddr_in	getAddress() const;
